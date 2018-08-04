@@ -2954,7 +2954,7 @@ UniValue createcontract(const UniValue& params, bool fHelp){
         vector<unsigned char> contractAddress(20);
         vector<unsigned char> txIdAndVout(wtx.GetHash().begin(), wtx.GetHash().end());
         uint32_t voutNumber=0;
-        BOOST_FOREACH(const CTxOut& txout, wtx.vout) {
+        for (const CTxOut& txout : wtx.vout) {
             if(txout.scriptPubKey.HasOpCreate()){
                 std::vector<unsigned char> voutNumberChrs;
                 if (voutNumberChrs.size() < sizeof(voutNumber))voutNumberChrs.resize(sizeof(voutNumber));

@@ -345,6 +345,10 @@ QString TransactionTableModel::formatTxType(const TransactionRecord* wtx) const
         return tr("Minted");
     case TransactionRecord::Generated:
         return tr("Mined");
+    case TransactionRecord::ContractRecv:
+         return tr("Contract receive");
+    case TransactionRecord::ContractSend:
+         return tr("Contract send");
     case TransactionRecord::DarksendDenominate:
         return tr("Darksend Denominate");
     case TransactionRecord::DarksendCollateralPayment:
@@ -375,6 +379,12 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord* wtx
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
         return QIcon(":/icons/tx_output");
+
+    case TransactionRecord::ContractSend:
+         return QIcon(":/icons/tx_output");
+    case TransactionRecord::ContractRecv:
+         return QIcon(":/icons/tx_inout");
+
     default:
         return QIcon(":/icons/tx_inout");
     }
@@ -395,6 +405,8 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord* wtx, b
     case TransactionRecord::MNReward:
     case TransactionRecord::RecvWithDarksend:
     case TransactionRecord::SendToAddress:
+    case TransactionRecord::ContractRecv:
+    case TransactionRecord::ContractSend:
     case TransactionRecord::Generated:
     case TransactionRecord::StakeMint:
         return lookupAddress(wtx->address, tooltip);
@@ -416,6 +428,8 @@ QVariant TransactionTableModel::addressColor(const TransactionRecord* wtx) const
     // Show addresses without label in a less visible color
     case TransactionRecord::RecvWithAddress:
     case TransactionRecord::SendToAddress:
+    case TransactionRecord::ContractSend:
+    case TransactionRecord::ContractRecv:
     case TransactionRecord::Generated:
     case TransactionRecord::MNReward: {
         QString label = walletModel->getAddressTableModel()->labelForAddress(QString::fromStdString(wtx->address));
